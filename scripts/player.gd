@@ -30,3 +30,9 @@ func _physics_process(delta):
 		velocity = velocity.move_toward(Vector2(0,0), SPEED)
 	#update_raycasts()
 	move_and_slide()
+
+
+func _on_player_hitbox_area_entered(area):
+	if area.is_in_group("enemyBulletArea"): # Yes
+		# It should be used for the game logic
+		print("player hit")

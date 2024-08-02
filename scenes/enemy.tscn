@@ -7,14 +7,13 @@
 light_mode = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p3gc5"]
-radius = 14.6154
+radius = 6.15385
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bsgdl"]
 size = Vector2(30.6569, 30.6569)
 
 [node name="enemy" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 3
-collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_gh5ex")
 
@@ -41,45 +40,18 @@ avoidance_enabled = true
 max_speed = 300.0
 debug_enabled = true
 
-[node name="rayCastNode" type="Node2D" parent="."]
-
-[node name="RayCast1" type="RayCast2D" parent="rayCastNode" groups=["enemy"]]
-target_position = Vector2(64, -48)
-
-[node name="RayCast2" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, -40)
-
-[node name="RayCast3" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, -32)
-
-[node name="RayCast4" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, -24)
-
-[node name="RayCast5" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, -16)
-
-[node name="RayCast6" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, -8)
-
-[node name="RayCast7" type="RayCast2D" parent="rayCastNode"]
+[node name="rayCastAim" type="RayCast2D" parent="."]
 target_position = Vector2(64, 0)
 
-[node name="RayCast8" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, 8)
+[node name="shootTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
 
-[node name="RayCast9" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, 16)
-
-[node name="RayCast10" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, 24)
-
-[node name="RayCast11" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, 32)
-
-[node name="RayCast12" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, 40)
-
-[node name="RayCast13" type="RayCast2D" parent="rayCastNode"]
-target_position = Vector2(64, 48)
+[node name="rayCastEnablerTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
 
 [connection signal="area_entered" from="hitboxArea" to="." method="_on_hitbox_area_area_entered"]
+[connection signal="timeout" from="shootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="timeout" from="rayCastEnablerTimer" to="." method="_on_ray_cast_enabler_timer_timeout"]
