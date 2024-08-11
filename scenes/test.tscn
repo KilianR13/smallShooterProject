@@ -375,6 +375,12 @@ shape = SubResource("RectangleShape2D_x3gi2")
 [node name="matchStartTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
-autostart = true
 
+[node name="newMatchWaitTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="enemyHit" from="enemy" to="." method="_on_enemy_enemy_hit"]
+[connection signal="playerHit" from="player" to="." method="_on_player_player_hit"]
 [connection signal="timeout" from="matchStartTimer" to="." method="_on_match_start_timer_timeout"]
+[connection signal="timeout" from="newMatchWaitTimer" to="." method="_on_new_match_wait_timer_timeout"]

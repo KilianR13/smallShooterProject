@@ -4,8 +4,12 @@ const ENEMY_MOVEMENT_SPEED = 100
 const WALL_AVOIDANCE_FORCE = 200
 const BULLET = preload("res://scenes/enemy_bullet.tscn")
 var preventLoop : bool = false
+var gunshotSound_player = AudioStreamPlayer2D.new()
+var gunshotSound = preload("res://resources/soundFX/gunshot_sound_enemyV2.wav")
+var canMove: bool = true
 
-signal enemy_dead
+signal enemyHit
+
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var raycastEnemyAim = $rayCastAim
 
@@ -22,19 +26,23 @@ func _ready():
 	raycastEnemyAim.add_exception(self)
 	# Extends the raycast
 	raycastEnemyAim.set_target_position(raycastEnemyAim.get_target_position() * 200)
+	gunshotSound_player.stream = gunshotSound
+	gunshotSound_player.volume_db = -5
+	gunshotSound_player.finished.connect(_on_gunshot_sound_finished)
 
-func _physics_process(delta):
-	# Set a Vector2.Zero for the motion. Idk why but it doesn't work if you don't
-	motion = Vector2.ZERO
-	# Set the target position for the nav agent to the player
-	# This MUST be changed when making the AI. It can't be used every frame and the enemy must not know where the player is always
-	nav_agent.set_target_position(player.global_position)
-	# Set the next nav point for the enemy
-	var next_nav_point = nav_agent.get_next_path_position()
-	# The velocity is set towards the next navigation point
-	velocity = (next_nav_point - global_position).normalized() * ENEMY_MOVEMENT_SPEED
-	# Make the enemy always look at the player. This will have to change later.
-	look_at(Vector2(player.global_position.x, player.global_position.y))
+func _physics_process(_delta):
+	if canMove:
+		# Set a Vector2.Zero for the motion. Idk why but it doesn't work if you don't
+		motion = Vector2.ZERO
+		# Set the target position for the nav agent to the player
+		# This MUST be changed when making the AI. It can't be used every frame and the enemy must not know where the player is always
+		nav_agent.set_target_position(player.global_position)
+		# Set the next nav point for the enemy
+		var next_nav_point = nav_agent.get_next_path_position()
+		# The velocity is set towards the next navigation point
+		velocity = (next_nav_point - global_position).normalized() * ENEMY_MOVEMENT_SPEED
+		# Make the enemy always look at the player. This will have to change later.
+		look_at(Vector2(player.global_position.x, player.global_position.y))
 	# Check for raycast collision to prepare to shoot.
 	checkRayCastCollision()
 	move_and_slide()
@@ -43,7 +51,9 @@ func _on_hitbox_area_area_entered(area):
 	# Is the "area" that just entered the enemy's area in the "playerBulletArea" group?
 	if area.is_in_group("playerBulletArea"): # Yes
 		# It should be used for the game logic
-		print("enemy hit")
+		print("enemy has been hit")
+		enemyHit.emit()
+		pass
 
 func checkRayCastCollision():
 	# "Is the raycast colliding with the player?"
@@ -52,6 +62,7 @@ func checkRayCastCollision():
 		if $shootTimer.is_stopped(): # Yes
 			# Start the timer to decide if the enemy should shoot
 			$shootTimer.start()
+			pass
 
 
 func _on_shoot_timer_timeout():
@@ -60,9 +71,21 @@ func _on_shoot_timer_timeout():
 		# Instantiate a bullet into a variable and add it as a child to the enemy
 		var shoot = BULLET.instantiate()
 		get_parent().add_child.call_deferred(shoot)
+		gunshotSound_player.set_pitch_scale(0.8)
+		add_child(gunshotSound_player)
+		gunshotSound_player.play()
 		# Make sure the timer is stopped, for good measure
 		$shootTimer.stop()
 
 # This timer only re-enables the raycast to shoot once 2 seconds pass after the start of the match
 func _on_ray_cast_enabler_timer_timeout():
 	raycastEnemyAim.enabled = true
+
+func _on_gunshot_sound_finished():
+	remove_child(gunshotSound_player)
+
+func stopMovement():
+	canMove = false
+
+func resumeMovement():
+	canMove = true

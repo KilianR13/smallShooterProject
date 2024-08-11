@@ -3,12 +3,22 @@ extends CharacterBody2D
 const BULLET = preload("res://scenes/bullet.tscn")
 const SPEED = 250.0
 
+var gunshotSound_player = AudioStreamPlayer2D.new()
+var gunshotSound = preload("res://resources/soundFX/gunshot_sound_player.wav")
+var canMove: bool = true
+
+
+signal playerHit
+
 func _ready():
+	gunshotSound_player.stream = gunshotSound
+	gunshotSound_player.volume_db = -10
+	gunshotSound_player.finished.connect(_on_gunshot_sound_finished)
 	#Input.MOUSE_MODE_CAPTURED
 	#self.position = get_viewport_rect().size/2
 	pass
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Puts the current position of the mouse in a variable to use it multiple times
 	var currentMousePosition = get_global_mouse_position()
 	# Rotates the sprite to make it look at the cursor at all times
@@ -16,23 +26,36 @@ func _physics_process(delta):
 	
 	# Function for shooting
 	if Input.is_action_just_pressed("shootMain"):
+		gunshotSound_player.set_pitch_scale(randf_range(0.7, 0.75))
+		add_child(gunshotSound_player)
+		gunshotSound_player.play()
 		var shoot = BULLET.instantiate()
 		get_parent().add_child.call_deferred(shoot) # The bullet will shoot instantly.
+	#
+	if canMove:
+		# Get the input direction and handle the movement/deceleration.
+		var xDir = Input.get_axis("moveLeft","moveRight")
+		var yDir = Input.get_axis("moveUp","moveDown")
+		var movement2D = Vector2(xDir,yDir)
+			
+		if movement2D != Vector2.ZERO:
+			velocity = movement2D * SPEED
+		else:
+			velocity = velocity.move_toward(Vector2(0,0), SPEED)
 	
-	# Get the input direction and handle the movement/deceleration.
-	var xDir = Input.get_axis("moveLeft","moveRight")
-	var yDir = Input.get_axis("moveUp","moveDown")
-	var movement2D = Vector2(xDir,yDir)
-	
-	if movement2D != Vector2.ZERO:
-		velocity = movement2D * SPEED
-	else:
-		velocity = velocity.move_toward(Vector2(0,0), SPEED)
-	#update_raycasts()
 	move_and_slide()
 
 
 func _on_player_hitbox_area_entered(area):
 	if area.is_in_group("enemyBulletArea"): # Yes
 		# It should be used for the game logic
-		print("player hit")
+		playerHit.emit()
+
+func _on_gunshot_sound_finished():
+	remove_child(gunshotSound_player)
+
+func stopMovement():
+	canMove = false
+
+func resumeMovement():
+	canMove = true

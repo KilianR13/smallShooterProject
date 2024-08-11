@@ -29,7 +29,7 @@ texture = ExtResource("3_ctwk1")
 texture_scale = 7.35
 metadata/_edit_lock_ = true
 
-[node name="playerHitbox" type="Area2D" parent="."]
+[node name="playerHitbox" type="Area2D" parent="." groups=["playerHitbox"]]
 
 [node name="playerCollisionHitbox" type="CollisionShape2D" parent="playerHitbox"]
 shape = SubResource("RectangleShape2D_2k666")

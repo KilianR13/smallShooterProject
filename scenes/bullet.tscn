@@ -1,18 +1,18 @@
 [gd_scene load_steps=6 format=3 uid="uid://y7k2ouj2pkqq"]
 
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_pw3g6"]
-[ext_resource type="Texture2D" uid="uid://coxe3skqscw6i" path="res://icon.svg" id="2_py2mf"]
+[ext_resource type="Texture2D" uid="uid://d3ba1nwg754k1" path="res://resources/bulletSpritePlayer.png" id="2_npb5h"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xbw1t"]
-light_mode = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xmkr0"]
-size = Vector2(12, 12)
+size = Vector2(15.625, 15.625)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnqpb"]
-size = Vector2(14, 14)
+size = Vector2(23.4375, 23.4375)
 
 [node name="bullet" type="RigidBody2D" groups=["playerBullet"]]
+scale = Vector2(0.5, 0.5)
 collision_layer = 2
 collision_mask = 2
 mass = 0.01
@@ -21,21 +21,24 @@ script = ExtResource("1_pw3g6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_xbw1t")
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_py2mf")
+texture = ExtResource("2_npb5h")
 
 [node name="regularHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(7.45058e-08, 5.96046e-07)
+scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_xmkr0")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-4.76837e-07, -4.76837e-07)
-scale = Vector2(0.6, 0.6)
+scale = Vector2(0.5, 0.5)
 
 [node name="Area2D" type="Area2D" parent="." groups=["playerBulletArea"]]
+scale = Vector2(0.8, 0.8)
 collision_layer = 2
 collision_mask = 2
 
-[node name="enemyCollisionHitbox" type="CollisionShape2D" parent="Area2D"]
+[node name="bulletHitbox" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1.86265e-07, 1.86265e-07)
+scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_hnqpb")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bknr4x1oapo6q"]
 
 [ext_resource type="Script" path="res://scripts/enemy_bullet.gd" id="1_68o13"]
-[ext_resource type="Texture2D" uid="uid://coxe3skqscw6i" path="res://icon.svg" id="2_nysy1"]
+[ext_resource type="Texture2D" uid="uid://dlmtee4oseg15" path="res://resources/bulletSpriteEnemy.png" id="2_jmdoq"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jjm1l"]
 light_mode = 2
@@ -10,9 +10,10 @@ light_mode = 2
 size = Vector2(12, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pkyqi"]
-size = Vector2(14, 14)
+size = Vector2(10, 10)
 
 [node name="enemyBullet" type="RigidBody2D" groups=["enemyBullet"]]
+scale = Vector2(0.5, 0.5)
 collision_layer = 3
 collision_mask = 3
 mass = 0.01
@@ -21,8 +22,7 @@ script = ExtResource("1_68o13")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_jjm1l")
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_nysy1")
+texture = ExtResource("2_jmdoq")
 
 [node name="regularHitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bn60x")
@@ -33,7 +33,9 @@ scale = Vector2(0.6, 0.6)
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemyBulletArea"]]
 
-[node name="enemyCollisionHitbox" type="CollisionShape2D" parent="Area2D"]
+[node name="bulletHitbox" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1.49012e-07, -4.84288e-07)
+scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_pkyqi")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

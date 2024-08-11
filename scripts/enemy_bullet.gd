@@ -13,16 +13,16 @@ func _ready():
 	# The bullet will look at the player to make it look like it's actually being shot towards the player
 	self.look_at((player.position - position).normalized())
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
 
 
 func _on_area_2d_body_entered(body):
 	if body.is_in_group("tileMap") or body.is_in_group("playerBullet"):
+		queue_free()
+
+# Function to check if the enemy's bullet has hit the players's hitbox area.
+# The hitbox area is different from the collision, and uses an area.
+func _on_area_2d_area_entered(area):
+	if area.is_in_group("playerHitbox"):
 		queue_free()
