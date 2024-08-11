@@ -23,16 +23,16 @@ func _physics_process(_delta):
 	var currentMousePosition = get_global_mouse_position()
 	# Rotates the sprite to make it look at the cursor at all times
 	self.look_at(currentMousePosition)
-	
-	# Function for shooting
-	if Input.is_action_just_pressed("shootMain"):
-		gunshotSound_player.set_pitch_scale(randf_range(0.7, 0.75))
-		add_child(gunshotSound_player)
-		gunshotSound_player.play()
-		var shoot = BULLET.instantiate()
-		get_parent().add_child.call_deferred(shoot) # The bullet will shoot instantly.
-	#
 	if canMove:
+		# Function for shooting
+		if Input.is_action_just_pressed("shootMain"):
+			gunshotSound_player.set_pitch_scale(randf_range(0.7, 0.75))
+			add_child(gunshotSound_player)
+			gunshotSound_player.play()
+			var shoot = BULLET.instantiate()
+			get_parent().add_child.call_deferred(shoot) # The bullet will shoot instantly.
+		#
+	
 		# Get the input direction and handle the movement/deceleration.
 		var xDir = Input.get_axis("moveLeft","moveRight")
 		var yDir = Input.get_axis("moveUp","moveDown")

@@ -13,18 +13,20 @@ func _ready():
 func _process(delta):
 	pass
 
-
+# When the timer to start the match ends, all barriers containing the player and the enemy are disabled
 func _on_match_start_timer_timeout():
 	for barrier in spawnBarriers:
 		barrier.disabled = true
 
 # Function called when a new round starts
 func roundStart():
-	# Sets the player 
+	# Sets the player and the enemy's starter position, just to make sure.
 	$player.position = $playerSpawn.position
 	$enemy.position = $enemySpawn.position
+	# Reveals the player and the enemy
 	$player.show()
 	$enemy.show()
+	# Calls the function that allowes the player and enemy to resume movement
 	$player.resumeMovement()
 	$enemy.resumeMovement()
 	
