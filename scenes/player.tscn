@@ -1,30 +1,71 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfkengxp5quls"]
+[gd_scene load_steps=10 format=3 uid="uid://dfkengxp5quls"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_rrx20"]
-[ext_resource type="Texture2D" uid="uid://coxe3skqscw6i" path="res://icon.svg" id="1_wr83c"]
-[ext_resource type="Texture2D" uid="uid://drpmtn7qynqnm" path="res://resources/light.png" id="3_ctwk1"]
+[ext_resource type="Texture2D" uid="uid://vf7mu2tjomnx" path="res://resources/sprites/playerSprite_standing.png" id="2_vsfn8"]
+[ext_resource type="Texture2D" uid="uid://cowlpt8tkb8p0" path="res://resources/sprites/playerSprite_walking1.png" id="3_4rqgy"]
+[ext_resource type="Texture2D" uid="uid://drpmtn7qynqnm" path="res://resources/sprites/light.png" id="3_ctwk1"]
+[ext_resource type="Texture2D" uid="uid://b6h180502hnqh" path="res://resources/sprites/playerSprite_walking2.png" id="4_uu3vh"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7e3pg"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vcrjf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vsfn8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_4rqgy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_vsfn8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_uu3vh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_vsfn8")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 10.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_73jlc"]
-size = Vector2(28, 28)
+size = Vector2(21, 54)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2k666"]
-size = Vector2(32, 32)
+size = Vector2(23, 56)
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 3
+collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_rrx20")
 
-[node name="playerSprite" type="Sprite2D" parent="."]
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_wr83c")
+[node name="animatedPlayerSprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_7e3pg")
+scale = Vector2(0.45, 0.5)
+sprite_frames = SubResource("SpriteFrames_vcrjf")
+animation = &"walking"
+frame = 3
+frame_progress = 0.646708
 
 [node name="playerCollision" type="CollisionShape2D" parent="."]
+position = Vector2(-3.5, 0)
 shape = SubResource("RectangleShape2D_73jlc")
 
 [node name="PointLight2D2" type="PointLight2D" parent="."]
 energy = 0.5
 range_item_cull_mask = 3
 shadow_enabled = true
+shadow_item_cull_mask = 2
 texture = ExtResource("3_ctwk1")
 texture_scale = 7.35
 metadata/_edit_lock_ = true
@@ -32,6 +73,7 @@ metadata/_edit_lock_ = true
 [node name="playerHitbox" type="Area2D" parent="." groups=["playerHitbox"]]
 
 [node name="playerCollisionHitbox" type="CollisionShape2D" parent="playerHitbox"]
+position = Vector2(-3.5, 0)
 shape = SubResource("RectangleShape2D_2k666")
 
 [connection signal="area_entered" from="playerHitbox" to="." method="_on_player_hitbox_area_entered"]

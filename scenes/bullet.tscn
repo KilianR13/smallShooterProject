@@ -1,9 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://y7k2ouj2pkqq"]
 
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_pw3g6"]
-[ext_resource type="Texture2D" uid="uid://d3ba1nwg754k1" path="res://resources/bulletSpritePlayer.png" id="2_npb5h"]
+[ext_resource type="Texture2D" uid="uid://d3ba1nwg754k1" path="res://resources/sprites/bulletSpritePlayer.png" id="2_1bpha"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xbw1t"]
+light_mode = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xmkr0"]
 size = Vector2(15.625, 15.625)
@@ -13,15 +14,15 @@ size = Vector2(23.4375, 23.4375)
 
 [node name="bullet" type="RigidBody2D" groups=["playerBullet"]]
 scale = Vector2(0.5, 0.5)
-collision_layer = 2
-collision_mask = 2
+collision_layer = 4
+collision_mask = 4
 mass = 0.01
 gravity_scale = 0.0
 script = ExtResource("1_pw3g6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_xbw1t")
-texture = ExtResource("2_npb5h")
+texture = ExtResource("2_1bpha")
 
 [node name="regularHitbox" type="CollisionShape2D" parent="."]
 position = Vector2(7.45058e-08, 5.96046e-07)

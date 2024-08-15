@@ -1,26 +1,58 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpskupah3wril"]
+[gd_scene load_steps=9 format=3 uid="uid://cpskupah3wril"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_gh5ex"]
-[ext_resource type="Texture2D" uid="uid://coxe3skqscw6i" path="res://icon.svg" id="1_sct00"]
+[ext_resource type="Texture2D" uid="uid://ykk2iyrl4qen" path="res://resources/sprites/enemySprite_standing.png" id="2_q5cax"]
+[ext_resource type="Texture2D" uid="uid://bp588orcn2nvs" path="res://resources/sprites/enemySprite_walking1.png" id="3_bpw5f"]
+[ext_resource type="Texture2D" uid="uid://delkmdmijs65a" path="res://resources/sprites/enemySprite_walking2.png" id="4_tsjod"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_63n4c"]
-light_mode = 2
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uyvqr"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lvkpe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_q5cax")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_bpw5f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_q5cax")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_tsjod")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_q5cax")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 10.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p3gc5"]
 radius = 6.15385
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bsgdl"]
-size = Vector2(30.6569, 30.6569)
+size = Vector2(19.1667, 53.3333)
 
 [node name="enemy" type="CharacterBody2D" groups=["enemy"]]
-collision_layer = 3
+collision_layer = 7
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_gh5ex")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("CanvasItemMaterial_63n4c")
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_sct00")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_uyvqr")
+scale = Vector2(0.45, 0.5)
+sprite_frames = SubResource("SpriteFrames_lvkpe")
+animation = &"new_animation"
+frame_progress = 0.961375
 
 [node name="collisionShape" type="CollisionShape2D" parent="."]
 scale = Vector2(1.3, 1.3)
@@ -31,6 +63,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="hitboxShape" type="CollisionShape2D" parent="hitboxArea"]
+position = Vector2(-1.5, 0)
 scale = Vector2(1.2, 1.2)
 shape = SubResource("RectangleShape2D_bsgdl")
 
@@ -42,6 +75,7 @@ debug_enabled = true
 
 [node name="rayCastAim" type="RayCast2D" parent="."]
 target_position = Vector2(64, 0)
+collision_mask = 3
 
 [node name="shootTimer" type="Timer" parent="."]
 wait_time = 0.2

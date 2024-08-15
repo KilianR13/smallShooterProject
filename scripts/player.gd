@@ -40,8 +40,10 @@ func _physics_process(_delta):
 			
 		if movement2D != Vector2.ZERO:
 			velocity = movement2D * SPEED
+			$animatedPlayerSprite.play("walking")
 		else:
 			velocity = velocity.move_toward(Vector2(0,0), SPEED)
+			$animatedPlayerSprite.play("idle")
 	
 	move_and_slide()
 

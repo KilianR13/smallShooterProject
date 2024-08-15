@@ -56,13 +56,13 @@ func _on_hitbox_area_area_entered(area):
 		pass
 
 func checkRayCastCollision():
-	if canMove:
+	#if canMove:
 		# "Is the raycast colliding with the player?"
-		if raycastEnemyAim.is_colliding() and raycastEnemyAim.get_collider() == player: # Yes
+	if raycastEnemyAim.is_colliding() and raycastEnemyAim.get_collider() == player: # Yes
 			# "Is the timer for shooting stopped?"
-			if $shootTimer.is_stopped(): # Yes
+		if $shootTimer.is_stopped(): # Yes
 				# Start the timer to decide if the enemy should shoot
-				$shootTimer.start()
+			$shootTimer.start()
 
 
 func _on_shoot_timer_timeout():

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/gameLogic.gd" id="1_kp2mb"]
 [ext_resource type="PackedScene" uid="uid://cpskupah3wril" path="res://scenes/enemy.tscn" id="2_1pp4g"]
-[ext_resource type="Texture2D" uid="uid://c1c1b2bw0jp7w" path="res://resources/tileset.png" id="3_ch2jt"]
+[ext_resource type="Texture2D" uid="uid://c1c1b2bw0jp7w" path="res://resources/sprites/tileset.png" id="3_ch2jt"]
 [ext_resource type="PackedScene" uid="uid://dfkengxp5quls" path="res://scenes/player.tscn" id="4_h4u7f"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_0mo7t"]
@@ -252,8 +252,8 @@ texture = ExtResource("3_ch2jt")
 7:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_vg5v6"]
-physics_layer_0/collision_layer = 3
-physics_layer_0/collision_mask = 3
+physics_layer_0/collision_layer = 7
+physics_layer_0/collision_mask = 7
 sources/0 = SubResource("TileSetAtlasSource_tyc2o")
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fhg8u"]
@@ -307,22 +307,27 @@ layer_0/tile_data = PackedInt32Array(2621440, 0, 5, 2621511, 393216, 4, 71, 2621
 
 [node name="LO1" type="LightOccluder2D" parent="NavigationRegion2D/TileMap/lightOccluderNode"]
 occluder = SubResource("OccluderPolygon2D_fhg8u")
+occluder_light_mask = 3
 
 [node name="LO2" type="LightOccluder2D" parent="NavigationRegion2D/TileMap/lightOccluderNode"]
 position = Vector2(-32, 0)
 occluder = SubResource("OccluderPolygon2D_ih328")
+occluder_light_mask = 3
 
 [node name="LO3" type="LightOccluder2D" parent="NavigationRegion2D/TileMap/lightOccluderNode"]
 position = Vector2(-32, -144)
 occluder = SubResource("OccluderPolygon2D_75vvn")
+occluder_light_mask = 3
 
 [node name="LO4" type="LightOccluder2D" parent="NavigationRegion2D/TileMap/lightOccluderNode"]
 position = Vector2(0, -144)
 occluder = SubResource("OccluderPolygon2D_vnj62")
+occluder_light_mask = 3
 
 [node name="LO5" type="LightOccluder2D" parent="NavigationRegion2D/TileMap/lightOccluderNode"]
 position = Vector2(-544, -576)
 occluder = SubResource("OccluderPolygon2D_vnj62")
+occluder_light_mask = 3
 
 [node name="LO6" type="LightOccluder2D" parent="NavigationRegion2D/TileMap/lightOccluderNode"]
 occluder = SubResource("OccluderPolygon2D_x1plh")

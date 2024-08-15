@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bknr4x1oapo6q"]
 
 [ext_resource type="Script" path="res://scripts/enemy_bullet.gd" id="1_68o13"]
-[ext_resource type="Texture2D" uid="uid://dlmtee4oseg15" path="res://resources/bulletSpriteEnemy.png" id="2_jmdoq"]
+[ext_resource type="Texture2D" uid="uid://dlmtee4oseg15" path="res://resources/sprites/bulletSpriteEnemy.png" id="2_gqd50"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jjm1l"]
 light_mode = 2
@@ -14,15 +14,15 @@ size = Vector2(10, 10)
 
 [node name="enemyBullet" type="RigidBody2D" groups=["enemyBullet"]]
 scale = Vector2(0.5, 0.5)
-collision_layer = 3
-collision_mask = 3
+collision_layer = 15
+collision_mask = 15
 mass = 0.01
 gravity_scale = 0.0
 script = ExtResource("1_68o13")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_jjm1l")
-texture = ExtResource("2_jmdoq")
+texture = ExtResource("2_gqd50")
 
 [node name="regularHitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bn60x")
