@@ -31,7 +31,7 @@ animations = [{
 "texture": ExtResource("2_q5cax")
 }],
 "loop": true,
-"name": &"new_animation",
+"name": &"walking",
 "speed": 10.0
 }]
 
@@ -47,12 +47,11 @@ collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_gh5ex")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="animatedEnemySprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_uyvqr")
 scale = Vector2(0.45, 0.5)
 sprite_frames = SubResource("SpriteFrames_lvkpe")
-animation = &"new_animation"
-frame_progress = 0.961375
+animation = &"walking"
 
 [node name="collisionShape" type="CollisionShape2D" parent="."]
 scale = Vector2(1.3, 1.3)

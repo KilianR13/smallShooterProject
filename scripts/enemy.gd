@@ -43,6 +43,7 @@ func _physics_process(_delta):
 		velocity = (next_nav_point - global_position).normalized() * ENEMY_MOVEMENT_SPEED
 		# Make the enemy always look at the player. This will have to change later.
 		look_at(Vector2(player.global_position.x, player.global_position.y))
+		$animatedEnemySprite.play("walking")
 	# Check for raycast collision to prepare to shoot.
 	checkRayCastCollision()
 	move_and_slide()
@@ -56,13 +57,13 @@ func _on_hitbox_area_area_entered(area):
 		pass
 
 func checkRayCastCollision():
-	#if canMove:
+	if canMove:
 		# "Is the raycast colliding with the player?"
-	if raycastEnemyAim.is_colliding() and raycastEnemyAim.get_collider() == player: # Yes
-			# "Is the timer for shooting stopped?"
-		if $shootTimer.is_stopped(): # Yes
-				# Start the timer to decide if the enemy should shoot
-			$shootTimer.start()
+		if raycastEnemyAim.is_colliding() and raycastEnemyAim.get_collider() == player: # Yes
+				# "Is the timer for shooting stopped?"
+			if $shootTimer.is_stopped(): # Yes
+					# Start the timer to decide if the enemy should shoot
+				$shootTimer.start()
 
 
 func _on_shoot_timer_timeout():
