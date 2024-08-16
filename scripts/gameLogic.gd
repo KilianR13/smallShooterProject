@@ -60,11 +60,11 @@ func _on_new_match_wait_timer_timeout():
 	roundStart()
 
 
-func _on_enemy_enemy_hit():
-	playerPoints += 1
-	roundOver()
-
-
-func _on_player_player_hit():
-	playerPoints += 1
-	roundOver()
+#func _on_enemy_enemy_hit():
+	#playerPoints += 1
+	#roundOver()
+#
+#
+#func _on_player_player_hit():
+	#playerPoints += 1
+	#roundOver()

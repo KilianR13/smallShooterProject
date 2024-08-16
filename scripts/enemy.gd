@@ -3,17 +3,20 @@ extends CharacterBody2D
 const ENEMY_MOVEMENT_SPEED = 100
 const WALL_AVOIDANCE_FORCE = 200
 const BULLET = preload("res://scenes/enemy_bullet.tscn")
+const MAX_AMMO = 12
 var preventLoop : bool = false
 var gunshotSound_player = AudioStreamPlayer2D.new()
 var gunshotSound = preload("res://resources/soundFX/gunshot_sound_enemyV2.wav")
 var canMove: bool = true
+var gunAmmo
 
 signal enemyHit
 
+@onready var reloadSound = $reloadSoundAudioPlayer
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var raycastEnemyAim = $rayCastAim
-
 @export var player_path : NodePath
+
 
 var motion
 
@@ -28,7 +31,9 @@ func _ready():
 	raycastEnemyAim.set_target_position(raycastEnemyAim.get_target_position() * 200)
 	gunshotSound_player.stream = gunshotSound
 	gunshotSound_player.volume_db = -5
+	gunshotSound_player.set_pitch_scale(0.8)
 	gunshotSound_player.finished.connect(_on_gunshot_sound_finished)
+	gunAmmo = MAX_AMMO
 
 func _physics_process(_delta):
 	if canMove:
@@ -68,15 +73,19 @@ func checkRayCastCollision():
 
 func _on_shoot_timer_timeout():
 	# "Is the raycast STILL colliding with the player?"
-	if raycastEnemyAim.is_colliding() and raycastEnemyAim.get_collider() == player: # Yes
+	if raycastEnemyAim.is_colliding() and raycastEnemyAim.get_collider() == player and gunAmmo >= 1: # Yes
 		# Instantiate a bullet into a variable and add it as a child to the enemy
 		var shoot = BULLET.instantiate()
 		get_parent().add_child.call_deferred(shoot)
-		gunshotSound_player.set_pitch_scale(0.8)
+		gunAmmo -= 1
 		add_child(gunshotSound_player)
 		gunshotSound_player.play()
 		# Make sure the timer is stopped, for good measure
 		$shootTimer.stop()
+	elif raycastEnemyAim.is_colliding() and raycastEnemyAim.get_collider() == player and gunAmmo == 0 and !reloadSound.playing:
+		$shootTimer.stop()
+		reloadSound.play()
+		print("reloading")
 
 # This timer only re-enables the raycast to shoot once 2 seconds pass after the start of the match
 func _on_ray_cast_enabler_timer_timeout():
@@ -90,3 +99,8 @@ func stopMovement():
 
 func resumeMovement():
 	canMove = true
+
+
+func _on_reload_sound_audio_player_finished():
+	print("audio finished")
+	gunAmmo = MAX_AMMO

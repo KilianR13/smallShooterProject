@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://dfkengxp5quls"]
+[gd_scene load_steps=11 format=3 uid="uid://dfkengxp5quls"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_rrx20"]
 [ext_resource type="Texture2D" uid="uid://vf7mu2tjomnx" path="res://resources/sprites/playerSprite_standing.png" id="2_vsfn8"]
 [ext_resource type="Texture2D" uid="uid://cowlpt8tkb8p0" path="res://resources/sprites/playerSprite_walking1.png" id="3_4rqgy"]
 [ext_resource type="Texture2D" uid="uid://drpmtn7qynqnm" path="res://resources/sprites/light.png" id="3_ctwk1"]
 [ext_resource type="Texture2D" uid="uid://b6h180502hnqh" path="res://resources/sprites/playerSprite_walking2.png" id="4_uu3vh"]
+[ext_resource type="AudioStream" uid="uid://cov2ngf30cdsn" path="res://resources/soundFX/playerHangunReload.wav" id="6_6pkeu"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7e3pg"]
 light_mode = 2
@@ -34,7 +35,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walking",
-"speed": 10.0
+"speed": 8.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_73jlc"]
@@ -76,4 +77,14 @@ metadata/_edit_lock_ = true
 position = Vector2(-3.5, 0)
 shape = SubResource("RectangleShape2D_2k666")
 
+[node name="reloadTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="reloadSoundAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_6pkeu")
+pitch_scale = 0.9
+
 [connection signal="area_entered" from="playerHitbox" to="." method="_on_player_hitbox_area_entered"]
+[connection signal="timeout" from="reloadTimer" to="." method="_on_reload_timer_timeout"]
+[connection signal="finished" from="reloadSoundAudioPlayer" to="." method="_on_reload_sound_audio_player_finished"]
