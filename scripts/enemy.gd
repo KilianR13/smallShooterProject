@@ -11,9 +11,10 @@ var gunAmmo
 
 enum enemyPlaystyle {
 	NORMAL,
-	UNPREDICTABLE,
+	RANDOM,
 	RUSH,
 }
+
 var enemyState
 var rng = RandomNumberGenerator.new()
 
@@ -93,6 +94,7 @@ func _on_shoot_timer_timeout():
 		# Make sure the timer is stopped, for good measure
 		$shootTimer.stop()
 	elif raycastEnemyAim.is_colliding() and raycastEnemyAim.get_collider() == player and gunAmmo == 0 and !reloadSound.playing:
+		# Make sure the timer is stopped, for good measure
 		$shootTimer.stop()
 		reloadSound.play()
 
@@ -129,7 +131,7 @@ func makeStrategy():
 			$checkPlayerPositionTimer.set_wait_time(0.1)
 			enemyMovementSpeed = 300
 			print("1")
-		enemyPlaystyle.UNPREDICTABLE:
+		enemyPlaystyle.RANDOM:
 			$shootTimer.set_wait_time(rng.randf_range(0.2, 0.4))
 			enemyMovementSpeed = rng.randi_range(80, 200)
 			$checkPlayerPositionTimer.set_wait_time(0.2)

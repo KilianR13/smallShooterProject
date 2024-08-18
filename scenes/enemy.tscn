@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://b6rpg61832akx" path="res://resources/soundFX/enemyHandgunReload.wav" id="5_dj28s"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uyvqr"]
+light_mode = 2
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lvkpe"]
 animations = [{

@@ -2,19 +2,41 @@ extends Node2D
 
 @onready var spawnBarriers = $spawnBarriers.get_children()
 @onready var camera = $gameCamera
+@onready var pause_Menu = $gameCamera/pauseMenu
 var playerPoints = 0
 var enemyPoints = 0
+var paused = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	pause_Menu.hide()
 	$player.stopMovement()
 	$enemy.stopMovement()
 	roundStart()
+	#Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func _unhandled_key_input(event):
+	if Input.is_action_just_pressed("pause"):
+		pauseMenu()
+
+func pauseMenu():
+	if paused:
+		pause_Menu.hide()
+		Engine.time_scale = 1
+		$player.resumeMovement()
+		$enemy.resumeMovement()
+	else:
+		pause_Menu.show()
+		Engine.time_scale = 0
+		$player.stopMovement()
+		$enemy.stopMovement()
+	
+	paused = !paused
 
 # When the timer to start the match ends, all barriers containing the player and the enemy are disabled
 func _on_match_start_timer_timeout():
@@ -31,7 +53,9 @@ func roundStart():
 	$enemy.position = $enemySpawn.position
 	# Reveals the player and the enemy
 	$player.show()
+	$player/playerHUD.show()
 	$enemy.show()
+	$player.newRound()
 	$enemy.newRound()
 	for barrier in spawnBarriers:
 		barrier.disabled = false
@@ -41,8 +65,9 @@ func roundStart():
 func roundOver():
 	camera.apply_shake()
 	stopMoving()
-	#$player.hide()
-	#$enemy.hide()
+	$player.hide()
+	$player/playerHUD.hide()
+	$enemy.hide()
 	$player.position = $playerSpawn.position
 	$player.stopMovement()
 	$enemy.position = $enemySpawn.position
@@ -76,3 +101,4 @@ func _on_enemy_enemy_hit():
 func _on_player_player_hit():
 	enemyPoints += 1
 	roundOver()
+

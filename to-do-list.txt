@@ -1,8 +1,6 @@
-- Create proper enemy AI that makes matches varied.
 - Implement some way of changing the map.
 - Making sprites into spritesheets.
 - Add UI, in general...
 - Add menus for multiple things.
 - Replace the spritesheet of the gridmap for a proper one. Or modify the current one to add details to add to the map + making a proper floor instead of relying on the background. Maybe some type of brick texture?
 - When finding out how to load different configurations, make more maps. 5 in total should be fine.
-- Make a magazine system for the weapons of the player and the rival's.

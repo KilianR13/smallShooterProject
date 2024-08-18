@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 const BULLET = preload("res://scenes/bullet.tscn")
 const SPEED = 250.0
-const MAX_BULLETS = 12
+const MAX_AMMO = 12
 
 var gunshotSound_player = AudioStreamPlayer2D.new()
 var gunshotSound = preload("res://resources/soundFX/gunshot_sound_player.wav")
@@ -12,9 +12,11 @@ var gunAmmo
 
 
 signal playerHit
+signal gunshot
+signal reloaded
 
 func _ready():
-	gunAmmo = MAX_BULLETS
+	gunAmmo = MAX_AMMO
 	gunshotSound_player.stream = gunshotSound
 	gunshotSound_player.volume_db = -10
 	gunshotSound_player.finished.connect(_on_gunshot_sound_finished)
@@ -23,11 +25,11 @@ func _ready():
 	pass
 
 func _physics_process(_delta):
-	# Puts the current position of the mouse in a variable to use it multiple times
-	var currentMousePosition = get_global_mouse_position()
-	# Rotates the sprite to make it look at the cursor at all times
-	self.look_at(currentMousePosition)
 	if canMove:
+		# Puts the current position of the mouse in a variable to use it multiple times
+		var currentMousePosition = get_global_mouse_position()
+		# Rotates the sprite to make it look at the cursor at all times
+		self.look_at(currentMousePosition)
 		if !reloadSound.playing:
 			# Function for shooting
 			if Input.is_action_just_pressed("shootMain") and gunAmmo >= 1:
@@ -37,6 +39,7 @@ func _physics_process(_delta):
 				var shoot = BULLET.instantiate()
 				get_parent().add_child.call_deferred(shoot) # The bullet will shoot instantly.
 				gunAmmo -= 1
+				gunshot.emit()
 			elif Input.is_action_just_pressed("shootMain") and gunAmmo == 0:
 				reloadGun()
 	
@@ -55,7 +58,7 @@ func _physics_process(_delta):
 	move_and_slide()
 
 func _unhandled_input(_event):
-	if Input.is_action_just_pressed("reloadGun") and gunAmmo < MAX_BULLETS and !reloadSound.playing:
+	if Input.is_action_just_pressed("reloadGun") and gunAmmo < MAX_AMMO and !reloadSound.playing:
 		reloadGun()
 
 func _on_player_hitbox_area_entered(area):
@@ -76,5 +79,10 @@ func reloadGun():
 	reloadSound.play()
 	print("reloading")
 
+func newRound():
+	gunAmmo = MAX_AMMO
+	reloaded.emit()
+
 func _on_reload_sound_audio_player_finished():
-	gunAmmo = MAX_BULLETS
+	gunAmmo = MAX_AMMO
+	reloaded.emit()
