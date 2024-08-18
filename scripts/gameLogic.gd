@@ -1,11 +1,14 @@
 extends Node2D
 
 @onready var spawnBarriers = $spawnBarriers.get_children()
+@onready var camera = $gameCamera
 var playerPoints = 0
 var enemyPoints = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$player.stopMovement()
+	$enemy.stopMovement()
 	roundStart()
 
 
@@ -17,6 +20,9 @@ func _process(delta):
 func _on_match_start_timer_timeout():
 	for barrier in spawnBarriers:
 		barrier.disabled = true
+	# Calls the function that allowes the player and enemy to resume movement
+	$player.resumeMovement()
+	$enemy.resumeMovement()
 
 # Function called when a new round starts
 func roundStart():
@@ -26,18 +32,17 @@ func roundStart():
 	# Reveals the player and the enemy
 	$player.show()
 	$enemy.show()
-	# Calls the function that allowes the player and enemy to resume movement
-	$player.resumeMovement()
-	$enemy.resumeMovement()
-	
+	$enemy.newRound()
 	for barrier in spawnBarriers:
 		barrier.disabled = false
 	$matchStartTimer.start()
 	
 
 func roundOver():
-	$player.hide()
-	$enemy.hide()
+	camera.apply_shake()
+	stopMoving()
+	#$player.hide()
+	#$enemy.hide()
 	$player.position = $playerSpawn.position
 	$player.stopMovement()
 	$enemy.position = $enemySpawn.position
@@ -59,12 +64,15 @@ func _on_new_match_wait_timer_timeout():
 	# A new round starts()
 	roundStart()
 
+func stopMoving():
+	$player.velocity = Vector2(0,0)
+	$enemy.velocity = Vector2(0,0)
 
-#func _on_enemy_enemy_hit():
-	#playerPoints += 1
-	#roundOver()
-#
-#
-#func _on_player_player_hit():
-	#playerPoints += 1
-	#roundOver()
+func _on_enemy_enemy_hit():
+	playerPoints += 1
+	roundOver()
+
+
+func _on_player_player_hit():
+	enemyPoints += 1
+	roundOver()

@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
-const ENEMY_MOVEMENT_SPEED = 100
-const WALL_AVOIDANCE_FORCE = 200
+var enemyMovementSpeed = 100
 const BULLET = preload("res://scenes/enemy_bullet.tscn")
 const MAX_AMMO = 12
 var preventLoop : bool = false
@@ -10,6 +9,14 @@ var gunshotSound = preload("res://resources/soundFX/gunshot_sound_enemyV2.wav")
 var canMove: bool = true
 var gunAmmo
 
+enum enemyPlaystyle {
+	NORMAL,
+	UNPREDICTABLE,
+	RUSH,
+}
+var enemyState
+var rng = RandomNumberGenerator.new()
+
 signal enemyHit
 
 @onready var reloadSound = $reloadSoundAudioPlayer
@@ -17,8 +24,8 @@ signal enemyHit
 @onready var raycastEnemyAim = $rayCastAim
 @export var player_path : NodePath
 
-
 var motion
+var next_nav_point
 
 @onready var nav_agent = $NavigationAgent2D
 
@@ -33,8 +40,9 @@ func _ready():
 	gunshotSound_player.volume_db = -5
 	gunshotSound_player.set_pitch_scale(0.8)
 	gunshotSound_player.finished.connect(_on_gunshot_sound_finished)
+	# Making sure that the enemy's handgun is filled
 	gunAmmo = MAX_AMMO
-
+	
 func _physics_process(_delta):
 	if canMove:
 		# Set a Vector2.Zero for the motion. Idk why but it doesn't work if you don't
@@ -43,12 +51,16 @@ func _physics_process(_delta):
 		# This MUST be changed when making the AI. It can't be used every frame and the enemy must not know where the player is always
 		nav_agent.set_target_position(player.global_position)
 		# Set the next nav point for the enemy
-		var next_nav_point = nav_agent.get_next_path_position()
-		# The velocity is set towards the next navigation point
-		velocity = (next_nav_point - global_position).normalized() * ENEMY_MOVEMENT_SPEED
-		# Make the enemy always look at the player. This will have to change later.
-		look_at(Vector2(player.global_position.x, player.global_position.y))
-		$animatedEnemySprite.play("walking")
+		if $checkPlayerPositionTimer.is_stopped():
+			$checkPlayerPositionTimer.start()
+			next_nav_point = nav_agent.get_next_path_position()
+			# The velocity is set towards the next navigation point
+			velocity = (next_nav_point - global_position).normalized() * enemyMovementSpeed
+			# Make the enemy always look at the player. This will have to change later.
+			look_at(Vector2(player.global_position.x, player.global_position.y))
+			$animatedEnemySprite.play("walking")
+	elif !canMove:
+		$animatedEnemySprite.play("idle")
 	# Check for raycast collision to prepare to shoot.
 	checkRayCastCollision()
 	move_and_slide()
@@ -57,9 +69,8 @@ func _on_hitbox_area_area_entered(area):
 	# Is the "area" that just entered the enemy's area in the "playerBulletArea" group?
 	if area.is_in_group("playerBulletArea"): # Yes
 		# It should be used for the game logic
-		print("enemy has been hit")
 		enemyHit.emit()
-		pass
+		$playstyleChangeTimer.stop()
 
 func checkRayCastCollision():
 	if canMove:
@@ -69,7 +80,6 @@ func checkRayCastCollision():
 			if $shootTimer.is_stopped(): # Yes
 					# Start the timer to decide if the enemy should shoot
 				$shootTimer.start()
-
 
 func _on_shoot_timer_timeout():
 	# "Is the raycast STILL colliding with the player?"
@@ -85,7 +95,6 @@ func _on_shoot_timer_timeout():
 	elif raycastEnemyAim.is_colliding() and raycastEnemyAim.get_collider() == player and gunAmmo == 0 and !reloadSound.playing:
 		$shootTimer.stop()
 		reloadSound.play()
-		print("reloading")
 
 # This timer only re-enables the raycast to shoot once 2 seconds pass after the start of the match
 func _on_ray_cast_enabler_timer_timeout():
@@ -100,7 +109,41 @@ func stopMovement():
 func resumeMovement():
 	canMove = true
 
+func generateRandom3() -> int:
+	return rng.randi_range(0, 2)
 
 func _on_reload_sound_audio_player_finished():
-	print("audio finished")
 	gunAmmo = MAX_AMMO
+
+func newRound():
+	$playstyleChangeTimer.start()
+	# Choose one of the possible strategies at random
+	makeStrategy()
+	gunAmmo = MAX_AMMO
+
+func makeStrategy():
+	enemyState = enemyPlaystyle.values()[generateRandom3()]
+	match enemyState:
+		enemyPlaystyle.RUSH:
+			$shootTimer.set_wait_time(0.2)
+			$checkPlayerPositionTimer.set_wait_time(0.1)
+			enemyMovementSpeed = 300
+			print("1")
+		enemyPlaystyle.UNPREDICTABLE:
+			$shootTimer.set_wait_time(rng.randf_range(0.2, 0.4))
+			enemyMovementSpeed = rng.randi_range(80, 200)
+			$checkPlayerPositionTimer.set_wait_time(0.2)
+			print("2")
+		enemyPlaystyle.NORMAL:
+			$shootTimer.set_wait_time(0.3)
+			enemyMovementSpeed = 100
+			$checkPlayerPositionTimer.set_wait_time(0.2)
+			print("3")
+			pass
+
+func _on_playstyle_change_timer_timeout():
+	if rng.randi_range(0, 1) == 1:
+		makeStrategy()
+		print("new strategy!")
+	else:
+		print("no new strategy")

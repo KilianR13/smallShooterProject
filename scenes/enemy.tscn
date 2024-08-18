@@ -78,7 +78,7 @@ target_position = Vector2(64, 0)
 collision_mask = 3
 
 [node name="shootTimer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.3
 one_shot = true
 
 [node name="rayCastEnablerTimer" type="Timer" parent="."]
@@ -86,10 +86,18 @@ wait_time = 2.0
 one_shot = true
 autostart = true
 
+[node name="checkPlayerPositionTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="playstyleChangeTimer" type="Timer" parent="."]
+wait_time = 10.0
+
 [node name="reloadSoundAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_dj28s")
 
 [connection signal="area_entered" from="hitboxArea" to="." method="_on_hitbox_area_area_entered"]
 [connection signal="timeout" from="shootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="timeout" from="rayCastEnablerTimer" to="." method="_on_ray_cast_enabler_timer_timeout"]
+[connection signal="timeout" from="playstyleChangeTimer" to="." method="_on_playstyle_change_timer_timeout"]
 [connection signal="finished" from="reloadSoundAudioPlayer" to="." method="_on_reload_sound_audio_player_finished"]
