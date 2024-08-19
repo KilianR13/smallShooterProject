@@ -62,7 +62,7 @@ frame_progress = 0.646708
 position = Vector2(-3.5, 0)
 shape = SubResource("RectangleShape2D_73jlc")
 
-[node name="PointLight2D2" type="PointLight2D" parent="."]
+[node name="playerLight" type="PointLight2D" parent="."]
 energy = 0.5
 range_item_cull_mask = 3
 shadow_enabled = true

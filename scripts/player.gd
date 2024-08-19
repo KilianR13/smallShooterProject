@@ -9,6 +9,7 @@ var gunshotSound = preload("res://resources/soundFX/gunshot_sound_player.wav")
 var canMove: bool = true
 var gunAmmo
 @onready var reloadSound = $reloadSoundAudioPlayer
+@onready var playerLight = $playerLight
 
 
 signal playerHit

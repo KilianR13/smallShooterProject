@@ -3,35 +3,55 @@ extends Node2D
 @onready var spawnBarriers = $spawnBarriers.get_children()
 @onready var camera = $gameCamera
 @onready var pause_Menu = $gameCamera/pauseMenu
+@onready var titleMapLight = $NavigationRegion2D/TileMap
 var playerPoints = 0
 var enemyPoints = 0
 var paused = false
+var regularShadowsType: bool = false
+
+
+#$NavigationRegion2D/TileMap.get_material().set_light_mode(2)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if regularShadowsType:
+		titleMapLight.get_material().set_light_mode(2)
+	elif !regularShadowsType:
+		titleMapLight.get_material().set_light_mode(0)
 	pause_Menu.hide()
 	$player.stopMovement()
 	$enemy.stopMovement()
-	roundStart()
+	roundStart()	
 	#Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 
+# DEBUG
+func changeShadowStyle():
+	regularShadowsType = !regularShadowsType
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+# DEBUG
 func _process(delta):
-	pass
+	if regularShadowsType:
+		titleMapLight.get_material().set_light_mode(2)
+	elif !regularShadowsType:
+		titleMapLight.get_material().set_light_mode(0)
 
-func _unhandled_key_input(event):
+func _unhandled_key_input(_event):
 	if Input.is_action_just_pressed("pause"):
 		pauseMenu()
 
 func pauseMenu():
 	if paused:
 		pause_Menu.hide()
+		$player.playerLight.show()
+		$player/playerHUD.show()
 		Engine.time_scale = 1
 		$player.resumeMovement()
 		$enemy.resumeMovement()
 	else:
 		pause_Menu.show()
+		$player.playerLight.hide()
+		$player/playerHUD.hide()
 		Engine.time_scale = 0
 		$player.stopMovement()
 		$enemy.stopMovement()

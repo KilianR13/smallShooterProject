@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://dw0rs88acy384"]
+
+[ext_resource type="Script" path="res://scripts/confirm_quit.gd" id="1_4w0er"]
+[ext_resource type="Shader" path="res://scenes/pause_menu.gdshader" id="2_qess3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xxgr2"]
+shader = ExtResource("2_qess3")
+shader_parameter/amount = 2.0
+
+[node name="confirmQuit" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4w0er")
+
+[node name="blurryBackground" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_xxgr2")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="confirmQuitButton" type="Button" parent="."]
+offset_left = 160.0
+offset_top = 384.0
+offset_right = 448.0
+offset_bottom = 480.0
+text = "YES, QUIT"
+
+[node name="denyQuitButton" type="Button" parent="."]
+offset_left = 704.0
+offset_top = 384.0
+offset_right = 992.0
+offset_bottom = 480.0
+text = "NO"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -200.0
+offset_bottom = -145.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "ARE YOU SURE YOU WANT TO QUIT?"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="confirmQuitButton" to="." method="_on_confirm_quit_button_pressed"]
+[connection signal="pressed" from="denyQuitButton" to="." method="_on_deny_quit_button_pressed"]

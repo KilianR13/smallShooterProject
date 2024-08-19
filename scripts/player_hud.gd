@@ -8,7 +8,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	$ammoCount.position = player.position - (Vector2(10.0,50.0))
 
 func checkPlayerAmmo():

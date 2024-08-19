@@ -1,11 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqmrkntuoap5e"]
+[gd_scene load_steps=8 format=3 uid="uid://b247i0sxkrbt2"]
 
-[ext_resource type="Script" path="res://scenes/pause_menu.gd" id="1_pqx2n"]
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_pqx2n"]
 [ext_resource type="Shader" path="res://scenes/pause_menu.gdshader" id="2_s0v1u"]
+[ext_resource type="PackedScene" uid="uid://dw0rs88acy384" path="res://scenes/confirm_quit.tscn" id="3_apecv"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_guy1v"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q6fih"]
 shader = ExtResource("2_s0v1u")
-shader_parameter/amount = 5.0
+shader_parameter/amount = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fm2y"]
+bg_color = Color(0, 0, 0, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eg61w"]
+bg_color = Color(0, 0, 0, 0.407843)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7xwa"]
+bg_color = Color(1, 1, 1, 0.8)
+border_color = Color(0, 0, 0, 0.8)
 
 [node name="pauseMenu" type="Control"]
 layout_mode = 3
@@ -17,36 +38,48 @@ grow_vertical = 2
 script = ExtResource("1_pqx2n")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_guy1v")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+material = SubResource("ShaderMaterial_q6fih")
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 656.0
 
 [node name="resumeButton" type="Button" parent="."]
-layout_mode = 2
-offset_left = 144.0
-offset_top = 400.0
-offset_right = 432.0
-offset_bottom = 496.0
-text = "CONTINUE"
+layout_mode = 0
+offset_left = 96.0
+offset_top = 480.0
+offset_right = 384.0
+offset_bottom = 576.0
+text = "RESUME"
 
 [node name="quitButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 208.0
-offset_top = 72.0
-offset_right = 496.0
-offset_bottom = 168.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = 768.0
+offset_top = 480.0
+offset_right = 1056.0
+offset_bottom = 576.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_8fm2y")
+theme_override_styles/hover = SubResource("StyleBoxFlat_eg61w")
+theme_override_styles/focus = SubResource("StyleBoxFlat_h7xwa")
 text = "QUIT"
 
+[node name="debugShadows" type="Button" parent="."]
+layout_mode = 0
+offset_left = 488.0
+offset_top = 176.0
+offset_right = 638.0
+offset_bottom = 326.0
+text = "DEBUG SHADOWS"
+
+[node name="confirmQuit" parent="." instance=ExtResource("3_apecv")]
+layout_mode = 1
+
+[connection signal="quitFromPause" from="." to="confirmQuit" method="_on_pause_menu_quit_from_pause"]
 [connection signal="pressed" from="resumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="quitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="debugShadows" to="." method="_on_debug_shadows_pressed"]

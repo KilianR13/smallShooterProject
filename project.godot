@@ -19,7 +19,6 @@ config/icon="res://icon.svg"
 window/size/viewport_height=656
 window/stretch/mode="canvas_items"
 mouse_cursor/custom_image="res://resources/sprites/crosshairMouse.png"
-mouse_cursor/custom_image_hotspot=Vector2(16, 16)
 
 [input]
 
