@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dpcexs3gp3qpv"]
+[gd_scene load_steps=22 format=3 uid="uid://dpcexs3gp3qpv"]
 
 [ext_resource type="Script" path="res://scripts/gameLogic.gd" id="1_kp2mb"]
 [ext_resource type="PackedScene" uid="uid://cpskupah3wril" path="res://scenes/enemy.tscn" id="2_1pp4g"]
@@ -6,7 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://c1c1b2bw0jp7w" path="res://resources/sprites/tileset.png" id="3_ch2jt"]
 [ext_resource type="PackedScene" uid="uid://dfkengxp5quls" path="res://scenes/player.tscn" id="4_h4u7f"]
 [ext_resource type="PackedScene" uid="uid://bft2e4vngrnh6" path="res://scenes/player_hud.tscn" id="6_5m780"]
-[ext_resource type="PackedScene" uid="uid://b247i0sxkrbt2" path="res://scenes/pause_menu.tscn" id="7_66spp"]
+[ext_resource type="PackedScene" uid="uid://b247i0sxkrbt2" path="res://scenes/menus/pause_menu.tscn" id="7_66spp"]
+[ext_resource type="AudioStream" uid="uid://bvamhy8j38rra" path="res://resources/soundFX/roundEndCheer.wav" id="8_fxpii"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_eim58"]
 
@@ -403,6 +404,9 @@ one_shot = true
 [node name="newMatchWaitTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="endOfRoundCheers" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_fxpii")
 
 [connection signal="enemyHit" from="enemy" to="." method="_on_enemy_enemy_hit"]
 [connection signal="gunshot" from="player" to="player/playerHUD" method="_on_player_gunshot"]

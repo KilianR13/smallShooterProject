@@ -97,8 +97,13 @@ wait_time = 10.0
 [node name="reloadSoundAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_dj28s")
 
+[node name="ffsTimer" type="Timer" parent="."]
+wait_time = 40.0
+one_shot = true
+
 [connection signal="area_entered" from="hitboxArea" to="." method="_on_hitbox_area_area_entered"]
 [connection signal="timeout" from="shootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="timeout" from="rayCastEnablerTimer" to="." method="_on_ray_cast_enabler_timer_timeout"]
 [connection signal="timeout" from="playstyleChangeTimer" to="." method="_on_playstyle_change_timer_timeout"]
 [connection signal="finished" from="reloadSoundAudioPlayer" to="." method="_on_reload_sound_audio_player_finished"]
+[connection signal="timeout" from="ffsTimer" to="." method="_on_ffs_timer_timeout"]

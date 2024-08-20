@@ -12,7 +12,7 @@ func _on_deny_quit_button_pressed():
 # If it equals "2", it quits the game.
 func _on_confirm_quit_button_pressed():
 	if typeOfQuit == 1:
-		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+		get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")
 	elif typeOfQuit == 2:
 		get_tree().quit()
 

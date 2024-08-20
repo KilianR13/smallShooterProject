@@ -5,13 +5,7 @@ signal quitFromMenu(value)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$confirmQuit.hide()
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
+	$optionsButton.disabled = true
 
 func _on_quit_button_pressed():
 	quitFromMenu.emit(2)

@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://dw0rs88acy384"]
 
-[ext_resource type="Script" path="res://scripts/confirm_quit.gd" id="1_4w0er"]
-[ext_resource type="Shader" path="res://scenes/pause_menu.gdshader" id="2_qess3"]
+[ext_resource type="Script" path="res://scripts/confirm_quit.gd" id="1_2ejvo"]
+[ext_resource type="Shader" path="res://scenes/menus/pause_menu.gdshader" id="2_kbntp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xxgr2"]
-shader = ExtResource("2_qess3")
+shader = ExtResource("2_kbntp")
 shader_parameter/amount = 2.0
 
 [node name="confirmQuit" type="Control"]
@@ -14,7 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_4w0er")
+script = ExtResource("1_2ejvo")
 
 [node name="blurryBackground" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_xxgr2")
@@ -27,6 +27,7 @@ grow_vertical = 2
 metadata/_edit_lock_ = true
 
 [node name="confirmQuitButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 160.0
 offset_top = 384.0
 offset_right = 448.0
@@ -34,6 +35,7 @@ offset_bottom = 480.0
 text = "YES, QUIT"
 
 [node name="denyQuitButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 704.0
 offset_top = 384.0
 offset_right = 992.0

@@ -4,10 +4,15 @@ extends Node2D
 @onready var camera = $gameCamera
 @onready var pause_Menu = $gameCamera/pauseMenu
 @onready var titleMapLight = $NavigationRegion2D/TileMap
+var rng = RandomNumberGenerator.new()
 var playerPoints = 0
 var enemyPoints = 0
+var winScore = 5
 var paused = false
 var regularShadowsType: bool = false
+var cheers1 = preload("res://resources/soundFX/roundEndCheer.wav")
+var cheers2 = preload("res://resources/soundFX/roundEndCheer2.wav")
+var allCheers = [cheers1, cheers2]
 
 
 #$NavigationRegion2D/TileMap.get_material().set_light_mode(2)
@@ -83,6 +88,8 @@ func roundStart():
 	
 
 func roundOver():
+	$endOfRoundCheers.stream = allCheers[rng.randi_range(0,1)]
+	$endOfRoundCheers.play()
 	camera.apply_shake()
 	stopMoving()
 	$player.hide()
@@ -97,12 +104,19 @@ func roundOver():
 # Function called every time a round is over. It decides if a new round should start or not
 func checkWinner():
 	# Does the player have the required ammount of points to win?
-	if playerPoints >= 5: # Yes
+	if playerPoints >= winScore: # Yes
 		print("Player wins") # Player wins
-	elif enemyPoints >= 5: # He doesn't, but the enemy does
+	elif enemyPoints >= winScore: # He doesn't, but the enemy does
 		print("Enemy wins") # The enemy wins
 	else: # Neither has enough points
 		$newMatchWaitTimer.start() # Start the timer for a new match
+
+func playAgain():
+	playerPoints = 0
+	enemyPoints = 0
+	$newMatchWaitTimer.start()
+
+
 
 # Function called when the timer for a new match runs out
 func _on_new_match_wait_timer_timeout():

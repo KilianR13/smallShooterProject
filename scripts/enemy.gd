@@ -5,7 +5,7 @@ const BULLET = preload("res://scenes/enemy_bullet.tscn")
 const MAX_AMMO = 12
 var preventLoop : bool = false
 var gunshotSound_player = AudioStreamPlayer2D.new()
-var gunshotSound = preload("res://resources/soundFX/gunshot_sound_enemyV2.wav")
+var gunshotSound = preload("res://resources/soundFX/gunshot_sound_enemy.wav")
 var canMove: bool = true
 var gunAmmo
 
@@ -149,3 +149,9 @@ func _on_playstyle_change_timer_timeout():
 		print("new strategy!")
 	else:
 		print("no new strategy")
+
+# This timer is only to prevent the matches from getting longer than a minute
+# Beautiful name, isn't it? The enemy's tired of your shit
+func _on_ffs_timer_timeout():
+	$playstyleChangeTimer.stop()
+	enemyState = enemyPlaystyle.RUSH
