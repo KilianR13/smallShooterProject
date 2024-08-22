@@ -4,30 +4,13 @@
 [ext_resource type="Shader" path="res://scenes/menus/pause_menu.gdshader" id="2_s0v1u"]
 [ext_resource type="PackedScene" uid="uid://dw0rs88acy384" path="res://scenes/menus/confirm_quit.tscn" id="3_apecv"]
 [ext_resource type="FontFile" uid="uid://darwn3iarq81o" path="res://resources/fonts/Exo2-VariableFont.ttf" id="3_m75bm"]
+[ext_resource type="StyleBox" uid="uid://c1obx8fcn8nmg" path="res://scenes/menus/buttonNormal.tres" id="4_ttxa1"]
+[ext_resource type="StyleBox" uid="uid://cko5acsg8ma4h" path="res://scenes/menus/buttonHover.tres" id="5_qgs6x"]
+[ext_resource type="StyleBox" uid="uid://cekqx07irlb46" path="res://scenes/menus/buttonFocus.tres" id="6_4mg1n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q6fih"]
 shader = ExtResource("2_s0v1u")
 shader_parameter/amount = 1.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fm2y"]
-bg_color = Color(0, 0, 0, 0.960784)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.8)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eg61w"]
-bg_color = Color(0, 0, 0, 0.407843)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.960784)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7xwa"]
-bg_color = Color(1, 1, 1, 0.960784)
-border_color = Color(0, 0, 0, 0.8)
 
 [node name="pauseMenu" type="Control"]
 layout_mode = 3
@@ -50,8 +33,14 @@ offset_left = 96.0
 offset_top = 480.0
 offset_right = 384.0
 offset_bottom = 576.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_m75bm")
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("4_ttxa1")
+theme_override_styles/hover = ExtResource("5_qgs6x")
+theme_override_styles/focus = ExtResource("6_4mg1n")
 text = "RESUME"
 
 [node name="quitButton" type="Button" parent="."]
@@ -66,9 +55,9 @@ theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("3_m75bm")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_8fm2y")
-theme_override_styles/hover = SubResource("StyleBoxFlat_eg61w")
-theme_override_styles/focus = SubResource("StyleBoxFlat_h7xwa")
+theme_override_styles/normal = ExtResource("4_ttxa1")
+theme_override_styles/hover = ExtResource("5_qgs6x")
+theme_override_styles/focus = ExtResource("6_4mg1n")
 text = "QUIT"
 
 [node name="debugShadows" type="Button" parent="."]

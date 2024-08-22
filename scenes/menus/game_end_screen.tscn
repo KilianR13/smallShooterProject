@@ -1,11 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://c0026dyaevmn7"]
+[gd_scene load_steps=11 format=3 uid="uid://c0026dyaevmn7"]
 
 [ext_resource type="Script" path="res://scripts/game_end_screen.gd" id="1_3vbux"]
 [ext_resource type="Shader" path="res://scenes/menus/pause_menu.gdshader" id="2_f7tdp"]
 [ext_resource type="Texture2D" uid="uid://bu0axxyfj4e5u" path="res://resources/atLeastYouTried.png" id="3_arv8w"]
 [ext_resource type="FontFile" uid="uid://darwn3iarq81o" path="res://resources/fonts/Exo2-VariableFont.ttf" id="3_v28b3"]
 [ext_resource type="Texture2D" uid="uid://begshgl3xxqn2" path="res://resources/youWon.png" id="4_01lff"]
+[ext_resource type="StyleBox" uid="uid://c1obx8fcn8nmg" path="res://scenes/menus/buttonNormal.tres" id="4_gj7go"]
 [ext_resource type="FontFile" uid="uid://ix64fi2lf3n0" path="res://resources/fonts/Nunito-VariableFont.ttf" id="4_yk46x"]
+[ext_resource type="StyleBox" uid="uid://cko5acsg8ma4h" path="res://scenes/menus/buttonHover.tres" id="5_j2vx2"]
+[ext_resource type="StyleBox" uid="uid://cekqx07irlb46" path="res://scenes/menus/buttonFocus.tres" id="6_ah7xh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ogahr"]
 shader = ExtResource("2_f7tdp")
@@ -38,6 +41,9 @@ offset_right = 432.0
 offset_bottom = 608.0
 theme_override_fonts/font = ExtResource("3_v28b3")
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("4_gj7go")
+theme_override_styles/hover = ExtResource("5_j2vx2")
+theme_override_styles/focus = ExtResource("6_ah7xh")
 text = "PLAY AGAIN"
 
 [node name="quitToMenu" type="Button" parent="."]
@@ -48,6 +54,9 @@ offset_right = 1008.0
 offset_bottom = 608.0
 theme_override_fonts/font = ExtResource("3_v28b3")
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("4_gj7go")
+theme_override_styles/hover = ExtResource("5_j2vx2")
+theme_override_styles/focus = ExtResource("6_ah7xh")
 text = "BACK TO MENU"
 
 [node name="matchWinnerText" type="Label" parent="."]

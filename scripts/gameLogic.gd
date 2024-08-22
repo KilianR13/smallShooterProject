@@ -4,6 +4,7 @@ extends Node2D
 @onready var camera = $gameCamera
 @onready var pause_Menu = $gameCamera/pauseMenu
 @onready var gameEndScreen = $gameCamera/gameEndScreen
+@onready var scoreBoard = $gameCamera/scoreBoard
 @onready var titleMapLight = $NavigationRegion2D/TileMap
 var rng = RandomNumberGenerator.new()
 var playerPoints = 0
@@ -11,6 +12,7 @@ var enemyPoints = 0
 var winScore = 5
 var paused = false
 var regularShadowsType: bool = false
+var canPause: bool
 
 
 #$NavigationRegion2D/TileMap.get_material().set_light_mode(2)
@@ -23,6 +25,7 @@ func _ready():
 		titleMapLight.get_material().set_light_mode(0)
 	pause_Menu.hide()
 	gameEndScreen.hide()
+	scoreBoard.hide()
 	$player.stopMovement()
 	$enemy.stopMovement()
 	roundStart()	
@@ -34,14 +37,15 @@ func changeShadowStyle():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 # DEBUG
-func _process(delta):
+func _process(_delta):
 	if regularShadowsType:
 		titleMapLight.get_material().set_light_mode(2)
 	elif !regularShadowsType:
 		titleMapLight.get_material().set_light_mode(0)
 
 func _unhandled_key_input(_event):
-	if Input.is_action_just_pressed("pause"):
+	if Input.is_action_just_pressed("pause") and canPause:
+		print(canPause)
 		pauseMenu()
 
 func pauseMenu():
@@ -88,6 +92,7 @@ func roundStart():
 	
 
 func roundOver():
+	canPause = false
 	camera.apply_shake()
 	$killSound.play()
 	stopMoving()
@@ -104,28 +109,33 @@ func roundOver():
 func checkWinner():
 	# Does the player have the required ammount of points to win?
 	if playerPoints >= winScore: # Yes
-		print("Player wins") # Player wins
-		gameOver(true)
+		gameOver(true) # Player wins
+		canPause = false
 	elif enemyPoints >= winScore: # He doesn't, but the enemy does
-		print("Enemy wins") # The enemy wins
-		gameOver(false)
+		gameOver(false) # The enemy wins
+		canPause = false
 	else: # Neither has enough points
 		$newMatchWaitTimer.start() # Start the timer for a new match
+		scoreBoard.show()
+		scoreBoard.updateScore(playerPoints , enemyPoints)
 
 func playAgain():
 	playerPoints = 0
 	enemyPoints = 0
+	canPause = true
 	$newMatchWaitTimer.start()
 
 func gameOver(playerWon : bool):
+	canPause = false
 	gameEndScreen.show()
 	gameEndScreen.changeByWinner(playerWon)
 	$endOfGameCheers.play()
-	pass
 
 # Function called when the timer for a new match runs out
 func _on_new_match_wait_timer_timeout():
-	# A new round starts()
+	# A new round starts
+	scoreBoard.hide()
+	canPause = true
 	roundStart()
 
 func stopMoving():

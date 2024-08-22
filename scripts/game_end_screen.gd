@@ -8,13 +8,7 @@ func _ready():
 	$quitToMenu.disabled = true
 	$youLostPNG.hide()
 	$youWonPNG.hide()
-	changeByWinner(true)
-	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 func changeByWinner(didPlayerWin : bool):
 	$antiMissclickTimer.start()

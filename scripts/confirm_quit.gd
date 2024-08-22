@@ -13,6 +13,7 @@ func _on_deny_quit_button_pressed():
 # Function that activates when pressing the button to confirm quitting.
 # First checks the type of "quitting" required. If it equals "1", it quits to the main menu.
 # If it equals "2", it quits the game.
+# If it doesn't equal either, it shows an error message.
 func _on_confirm_quit_button_pressed():
 	if typeOfQuit == 1:
 		get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")

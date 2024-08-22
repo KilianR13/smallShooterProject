@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dw0rs88acy384"]
+[gd_scene load_steps=9 format=3 uid="uid://dw0rs88acy384"]
 
 [ext_resource type="Script" path="res://scripts/confirm_quit.gd" id="1_2ejvo"]
 [ext_resource type="Shader" path="res://scenes/menus/pause_menu.gdshader" id="2_kbntp"]
 [ext_resource type="FontFile" uid="uid://darwn3iarq81o" path="res://resources/fonts/Exo2-VariableFont.ttf" id="3_cqdq3"]
+[ext_resource type="StyleBox" uid="uid://c1obx8fcn8nmg" path="res://scenes/menus/buttonNormal.tres" id="4_6pw4y"]
 [ext_resource type="FontFile" uid="uid://ix64fi2lf3n0" path="res://resources/fonts/Nunito-VariableFont.ttf" id="4_qsja0"]
+[ext_resource type="StyleBox" uid="uid://cko5acsg8ma4h" path="res://scenes/menus/buttonHover.tres" id="5_sa3bi"]
+[ext_resource type="StyleBox" uid="uid://cekqx07irlb46" path="res://scenes/menus/buttonFocus.tres" id="6_gkkmh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xxgr2"]
 shader = ExtResource("2_kbntp")
@@ -36,6 +39,9 @@ offset_right = 432.0
 offset_bottom = 496.0
 theme_override_fonts/font = ExtResource("3_cqdq3")
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("4_6pw4y")
+theme_override_styles/hover = ExtResource("5_sa3bi")
+theme_override_styles/focus = ExtResource("6_gkkmh")
 text = "YES, QUIT"
 
 [node name="denyQuitButton" type="Button" parent="."]
@@ -46,6 +52,9 @@ offset_right = 1008.0
 offset_bottom = 496.0
 theme_override_fonts/font = ExtResource("3_cqdq3")
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("4_6pw4y")
+theme_override_styles/hover = ExtResource("5_sa3bi")
+theme_override_styles/focus = ExtResource("6_gkkmh")
 text = "NO"
 
 [node name="textLabel" type="Label" parent="."]

@@ -9,9 +9,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	$ammoCount.position = player.position - (Vector2(10.0,50.0))
+	$ammoCount.position = player.position - (Vector2(15.0,70.0))
 
 func checkPlayerAmmo():
+	if player.gunAmmo == 0:
+		$ammoCount.add_theme_color_override("font_color", Color(1, 0, 0))
+	else:
+		$ammoCount.add_theme_color_override("font_color", Color(1, 1, 1))
 	$ammoCount.set_text(str(player.gunAmmo))
 
 func _on_player_gunshot():

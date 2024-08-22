@@ -1,11 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtx7fwfraxlcs"]
+[gd_scene load_steps=9 format=3 uid="uid://dtx7fwfraxlcs"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_ptiev"]
 [ext_resource type="PackedScene" uid="uid://dw0rs88acy384" path="res://scenes/menus/confirm_quit.tscn" id="2_5qm41"]
 [ext_resource type="FontFile" uid="uid://by6oaaomws3g4" path="res://resources/fonts/Orbitron-VariableFont.ttf" id="2_7gt21"]
 [ext_resource type="FontFile" uid="uid://darwn3iarq81o" path="res://resources/fonts/Exo2-VariableFont.ttf" id="2_truqh"]
+[ext_resource type="StyleBox" uid="uid://c1obx8fcn8nmg" path="res://scenes/menus/buttonNormal.tres" id="3_wi6eo"]
+[ext_resource type="StyleBox" uid="uid://cko5acsg8ma4h" path="res://scenes/menus/buttonHover.tres" id="4_24m87"]
+[ext_resource type="StyleBox" uid="uid://cekqx07irlb46" path="res://scenes/menus/buttonFocus.tres" id="5_dqnr8"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcfwr"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rksw5"]
 
 [node name="mainMenu" type="Control"]
 layout_mode = 3
@@ -24,6 +27,9 @@ offset_right = 352.0
 offset_bottom = 576.0
 theme_override_fonts/font = ExtResource("2_truqh")
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("3_wi6eo")
+theme_override_styles/hover = ExtResource("4_24m87")
+theme_override_styles/focus = ExtResource("5_dqnr8")
 text = "PLAY"
 
 [node name="optionsButton" type="Button" parent="."]
@@ -32,7 +38,8 @@ offset_left = 432.0
 offset_top = 480.0
 offset_right = 720.0
 offset_bottom = 576.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_rcfwr")
+theme_override_styles/normal = ExtResource("3_wi6eo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rksw5")
 disabled = true
 text = "OPTIONS"
 
@@ -44,6 +51,9 @@ offset_right = 1088.0
 offset_bottom = 576.0
 theme_override_fonts/font = ExtResource("2_truqh")
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("3_wi6eo")
+theme_override_styles/hover = ExtResource("4_24m87")
+theme_override_styles/focus = ExtResource("5_dqnr8")
 text = "QUIT"
 
 [node name="gameTitle" type="Label" parent="."]
