@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dw0rs88acy384"]
+[gd_scene load_steps=6 format=3 uid="uid://dw0rs88acy384"]
 
 [ext_resource type="Script" path="res://scripts/confirm_quit.gd" id="1_2ejvo"]
 [ext_resource type="Shader" path="res://scenes/menus/pause_menu.gdshader" id="2_kbntp"]
+[ext_resource type="FontFile" uid="uid://darwn3iarq81o" path="res://resources/fonts/Exo2-VariableFont.ttf" id="3_cqdq3"]
+[ext_resource type="FontFile" uid="uid://ix64fi2lf3n0" path="res://resources/fonts/Nunito-VariableFont.ttf" id="4_qsja0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xxgr2"]
 shader = ExtResource("2_kbntp")
@@ -28,21 +30,25 @@ metadata/_edit_lock_ = true
 
 [node name="confirmQuitButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 160.0
-offset_top = 384.0
-offset_right = 448.0
-offset_bottom = 480.0
+offset_left = 144.0
+offset_top = 400.0
+offset_right = 432.0
+offset_bottom = 496.0
+theme_override_fonts/font = ExtResource("3_cqdq3")
+theme_override_font_sizes/font_size = 30
 text = "YES, QUIT"
 
 [node name="denyQuitButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 704.0
-offset_top = 384.0
-offset_right = 992.0
-offset_bottom = 480.0
+offset_left = 720.0
+offset_top = 400.0
+offset_right = 1008.0
+offset_bottom = 496.0
+theme_override_fonts/font = ExtResource("3_cqdq3")
+theme_override_font_sizes/font_size = 30
 text = "NO"
 
-[node name="Label" type="Label" parent="."]
+[node name="textLabel" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -52,9 +58,31 @@ offset_top = -200.0
 offset_bottom = -145.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 40
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("4_qsja0")
+theme_override_font_sizes/font_size = 55
 text = "ARE YOU SURE YOU WANT TO QUIT?"
 horizontal_alignment = 1
+
+[node name="funnyLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 202.0
+offset_bottom = 278.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("4_qsja0")
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="confirmQuitButton" to="." method="_on_confirm_quit_button_pressed"]
 [connection signal="pressed" from="denyQuitButton" to="." method="_on_deny_quit_button_pressed"]

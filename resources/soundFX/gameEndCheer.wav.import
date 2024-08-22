@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://be0f8wu7s72u8"
-path="res://.godot/imported/roundEndCheer2.wav-ee7fca66f21500c492efe2000c230b8e.sample"
+path="res://.godot/imported/gameEndCheer.wav-7b304d1846048b3edd49e4b907bc2e0d.sample"
 
 [deps]
 
-source_file="res://resources/soundFX/roundEndCheer2.wav"
-dest_files=["res://.godot/imported/roundEndCheer2.wav-ee7fca66f21500c492efe2000c230b8e.sample"]
+source_file="res://resources/soundFX/gameEndCheer.wav"
+dest_files=["res://.godot/imported/gameEndCheer.wav-7b304d1846048b3edd49e4b907bc2e0d.sample"]
 
 [params]
 

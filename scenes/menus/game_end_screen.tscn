@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://c0026dyaevmn7"]
+
+[ext_resource type="Script" path="res://scripts/game_end_screen.gd" id="1_3vbux"]
+[ext_resource type="Shader" path="res://scenes/menus/pause_menu.gdshader" id="2_f7tdp"]
+[ext_resource type="Texture2D" uid="uid://bu0axxyfj4e5u" path="res://resources/atLeastYouTried.png" id="3_arv8w"]
+[ext_resource type="FontFile" uid="uid://darwn3iarq81o" path="res://resources/fonts/Exo2-VariableFont.ttf" id="3_v28b3"]
+[ext_resource type="Texture2D" uid="uid://begshgl3xxqn2" path="res://resources/youWon.png" id="4_01lff"]
+[ext_resource type="FontFile" uid="uid://ix64fi2lf3n0" path="res://resources/fonts/Nunito-VariableFont.ttf" id="4_yk46x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ogahr"]
+shader = ExtResource("2_f7tdp")
+shader_parameter/amount = 1.0
+
+[node name="gameEndScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3vbux")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ogahr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.113725)
+
+[node name="replayMatch" type="Button" parent="."]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 512.0
+offset_right = 432.0
+offset_bottom = 608.0
+theme_override_fonts/font = ExtResource("3_v28b3")
+theme_override_font_sizes/font_size = 30
+text = "PLAY AGAIN"
+
+[node name="quitToMenu" type="Button" parent="."]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 512.0
+offset_right = 1008.0
+offset_bottom = 608.0
+theme_override_fonts/font = ExtResource("3_v28b3")
+theme_override_font_sizes/font_size = 30
+text = "BACK TO MENU"
+
+[node name="matchWinnerText" type="Label" parent="."]
+layout_mode = 0
+offset_left = 704.0
+offset_top = 157.0
+offset_right = 1024.0
+offset_bottom = 224.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("4_yk46x")
+theme_override_font_sizes/font_size = 40
+text = "DEFAULT-TEXT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="antiMissclickTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="youLostPNG" type="Sprite2D" parent="."]
+position = Vector2(288, 256)
+scale = Vector2(0.666172, 0.666172)
+texture = ExtResource("3_arv8w")
+
+[node name="youWonPNG" type="Sprite2D" parent="."]
+position = Vector2(296, 256)
+scale = Vector2(0.324094, 0.324094)
+texture = ExtResource("4_01lff")
+
+[connection signal="pressed" from="replayMatch" to="." method="_on_replay_match_pressed"]
+[connection signal="pressed" from="quitToMenu" to="." method="_on_quit_to_menu_pressed"]
+[connection signal="timeout" from="antiMissclickTimer" to="." method="_on_anti_missclick_timer_timeout"]

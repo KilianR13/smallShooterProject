@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtx7fwfraxlcs"]
+[gd_scene load_steps=6 format=3 uid="uid://dtx7fwfraxlcs"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_ptiev"]
 [ext_resource type="PackedScene" uid="uid://dw0rs88acy384" path="res://scenes/menus/confirm_quit.tscn" id="2_5qm41"]
+[ext_resource type="FontFile" uid="uid://by6oaaomws3g4" path="res://resources/fonts/Orbitron-VariableFont.ttf" id="2_7gt21"]
+[ext_resource type="FontFile" uid="uid://darwn3iarq81o" path="res://resources/fonts/Exo2-VariableFont.ttf" id="2_truqh"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcfwr"]
 
@@ -20,6 +22,8 @@ offset_left = 64.0
 offset_top = 480.0
 offset_right = 352.0
 offset_bottom = 576.0
+theme_override_fonts/font = ExtResource("2_truqh")
+theme_override_font_sizes/font_size = 30
 text = "PLAY"
 
 [node name="optionsButton" type="Button" parent="."]
@@ -38,7 +42,24 @@ offset_left = 800.0
 offset_top = 480.0
 offset_right = 1088.0
 offset_bottom = 576.0
+theme_override_fonts/font = ExtResource("2_truqh")
+theme_override_font_sizes/font_size = 30
 text = "QUIT"
+
+[node name="gameTitle" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 320.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_7gt21")
+theme_override_font_sizes/font_size = 100
+text = "SHOOTERMANIA"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="confirmQuit" parent="." instance=ExtResource("2_5qm41")]
 visible = false
@@ -46,4 +67,5 @@ layout_mode = 1
 
 [connection signal="quitFromMenu" from="." to="confirmQuit" method="_on_main_menu_quit_from_menu"]
 [connection signal="pressed" from="playButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="optionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="quitButton" to="." method="_on_quit_button_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dpcexs3gp3qpv"]
+[gd_scene load_steps=25 format=3 uid="uid://dpcexs3gp3qpv"]
 
 [ext_resource type="Script" path="res://scripts/gameLogic.gd" id="1_kp2mb"]
 [ext_resource type="PackedScene" uid="uid://cpskupah3wril" path="res://scenes/enemy.tscn" id="2_1pp4g"]
@@ -7,7 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://dfkengxp5quls" path="res://scenes/player.tscn" id="4_h4u7f"]
 [ext_resource type="PackedScene" uid="uid://bft2e4vngrnh6" path="res://scenes/player_hud.tscn" id="6_5m780"]
 [ext_resource type="PackedScene" uid="uid://b247i0sxkrbt2" path="res://scenes/menus/pause_menu.tscn" id="7_66spp"]
-[ext_resource type="AudioStream" uid="uid://bvamhy8j38rra" path="res://resources/soundFX/roundEndCheer.wav" id="8_fxpii"]
+[ext_resource type="PackedScene" uid="uid://c0026dyaevmn7" path="res://scenes/menus/game_end_screen.tscn" id="8_287uk"]
+[ext_resource type="AudioStream" uid="uid://be0f8wu7s72u8" path="res://resources/soundFX/gameEndCheer.wav" id="9_hl65g"]
+[ext_resource type="AudioStream" uid="uid://dw28ywg61dtu7" path="res://resources/soundFX/fightingBells.wav" id="10_ypbsb"]
+[ext_resource type="AudioStream" uid="uid://bkbegylouwxa1" path="res://resources/soundFX/killSound.wav" id="11_w78dx"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_eim58"]
 
@@ -372,6 +375,13 @@ offset_top = -328.0
 offset_right = 576.0
 offset_bottom = 328.0
 
+[node name="gameEndScreen" parent="gameCamera" instance=ExtResource("8_287uk")]
+visible = false
+offset_left = -576.0
+offset_top = -328.0
+offset_right = -576.0
+offset_bottom = -328.0
+
 [node name="playerSpawn" type="Node2D" parent="."]
 position = Vector2(1072, 326)
 metadata/_edit_lock_ = true
@@ -405,12 +415,20 @@ one_shot = true
 wait_time = 3.0
 one_shot = true
 
-[node name="endOfRoundCheers" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("8_fxpii")
+[node name="endOfGameCheers" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_hl65g")
+
+[node name="roundStartBell" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_ypbsb")
+
+[node name="killSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_w78dx")
+volume_db = -5.0
 
 [connection signal="enemyHit" from="enemy" to="." method="_on_enemy_enemy_hit"]
 [connection signal="gunshot" from="player" to="player/playerHUD" method="_on_player_gunshot"]
 [connection signal="playerHit" from="player" to="." method="_on_player_player_hit"]
 [connection signal="reloaded" from="player" to="player/playerHUD" method="_on_player_reloaded"]
+[connection signal="playAgain" from="gameCamera/gameEndScreen" to="." method="_on_game_end_screen_play_again"]
 [connection signal="timeout" from="matchStartTimer" to="." method="_on_match_start_timer_timeout"]
 [connection signal="timeout" from="newMatchWaitTimer" to="." method="_on_new_match_wait_timer_timeout"]

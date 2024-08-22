@@ -3,6 +3,7 @@ extends Node2D
 @onready var spawnBarriers = $spawnBarriers.get_children()
 @onready var camera = $gameCamera
 @onready var pause_Menu = $gameCamera/pauseMenu
+@onready var gameEndScreen = $gameCamera/gameEndScreen
 @onready var titleMapLight = $NavigationRegion2D/TileMap
 var rng = RandomNumberGenerator.new()
 var playerPoints = 0
@@ -10,9 +11,6 @@ var enemyPoints = 0
 var winScore = 5
 var paused = false
 var regularShadowsType: bool = false
-var cheers1 = preload("res://resources/soundFX/roundEndCheer.wav")
-var cheers2 = preload("res://resources/soundFX/roundEndCheer2.wav")
-var allCheers = [cheers1, cheers2]
 
 
 #$NavigationRegion2D/TileMap.get_material().set_light_mode(2)
@@ -24,6 +22,7 @@ func _ready():
 	elif !regularShadowsType:
 		titleMapLight.get_material().set_light_mode(0)
 	pause_Menu.hide()
+	gameEndScreen.hide()
 	$player.stopMovement()
 	$enemy.stopMovement()
 	roundStart()	
@@ -65,6 +64,7 @@ func pauseMenu():
 
 # When the timer to start the match ends, all barriers containing the player and the enemy are disabled
 func _on_match_start_timer_timeout():
+	$roundStartBell.play()
 	for barrier in spawnBarriers:
 		barrier.disabled = true
 	# Calls the function that allowes the player and enemy to resume movement
@@ -88,9 +88,8 @@ func roundStart():
 	
 
 func roundOver():
-	$endOfRoundCheers.stream = allCheers[rng.randi_range(0,1)]
-	$endOfRoundCheers.play()
 	camera.apply_shake()
+	$killSound.play()
 	stopMoving()
 	$player.hide()
 	$player/playerHUD.hide()
@@ -106,8 +105,10 @@ func checkWinner():
 	# Does the player have the required ammount of points to win?
 	if playerPoints >= winScore: # Yes
 		print("Player wins") # Player wins
+		gameOver(true)
 	elif enemyPoints >= winScore: # He doesn't, but the enemy does
 		print("Enemy wins") # The enemy wins
+		gameOver(false)
 	else: # Neither has enough points
 		$newMatchWaitTimer.start() # Start the timer for a new match
 
@@ -116,7 +117,11 @@ func playAgain():
 	enemyPoints = 0
 	$newMatchWaitTimer.start()
 
-
+func gameOver(playerWon : bool):
+	gameEndScreen.show()
+	gameEndScreen.changeByWinner(playerWon)
+	$endOfGameCheers.play()
+	pass
 
 # Function called when the timer for a new match runs out
 func _on_new_match_wait_timer_timeout():
@@ -136,3 +141,7 @@ func _on_player_player_hit():
 	enemyPoints += 1
 	roundOver()
 
+
+
+func _on_game_end_screen_play_again():
+	playAgain()
